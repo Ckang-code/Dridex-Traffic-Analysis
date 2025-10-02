@@ -1,0 +1,49 @@
+es
+
+# ======================================
+# Local Suricata Rules – Dridex Analysis
+# Work in Progress
+# ======================================
+
+# Detect TLS ClientHello with no SNI (common in malware C2)
+alert tls any any -> any any (
+    msg:"LOCAL Dridex - TLS ClientHello without SNI";
+    tls_sni; content:""; depth:0; 
+    flow:established,to_server;
+    sid:2000001; rev:1;
+)
+
+# Detect suspicious TLS certificate (placeholder - update from analysis)
+alert tls any any -> any any (
+    msg:"LOCAL Dridex - Suspicious TLS certificate";
+    flow:established,to_client;
+    tls.cert_subject; content:"CN=example"; nocase;
+    sid:2000002; rev:1;
+)
+
+# JA3 fingerprint match (replace <JA3_HASH> with actual observed hash)
+alert tls any any -> any any (
+    msg:"LOCAL Dridex - Known malicious JA3 fingerprint";
+    ja3_hash;<JA3_HASH>;
+    sid:2000003; rev:1;
+)
+
+# Potential beaconing behavior (generic, update after testing)
+alert tls any any -> any any (
+    msg:"LOCAL Dridex - Potential beaconing traffic";
+    flow:established;
+    byte_test:4,<,200,0,relative;
+    sid:2000004; rev:1;
+)
+
+# Suspicious HTTP C2 pattern (placeholder, update with actual indicators)
+alert http any any -> any any (
+    msg:"LOCAL Dridex - Suspicious HTTP C2 pattern";
+    flow:established,to_server;
+    http.host; content:"example.bad"; nocase;
+    sid:2000005; rev:1;
+)
+
+# ======================================
+# End of local.rules
+# ======================================
