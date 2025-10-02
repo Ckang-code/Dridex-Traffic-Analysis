@@ -33,6 +33,6 @@ into actionable detections and repeatable workflows.
 - Suricata rule development and testing planned 
 
 ## References
-- [Unit42 Dridex Wireshark Tuorial]([https://unit42.paloaltonetworks.com/](https://github.com/pan-unit42/wireshark-tutorial-Dridex-traffic](https://unit42.paloaltonetworks.com/wireshark-tutorial-dridex-infection-traffic/)))  
-- [Unit42 Dridex PCAP Collection]([https://unit42.paloaltonetworks.com/](https://github.com/pan-unit42/wireshark-tutorial-Dridex-traffic))  
+- [Unit42 Wireshark Tutorial – Dridex Infection Traffic](https://unit42.paloaltonetworks.com/wireshark-tutorial-dridex-infection-traffic/)  
+- [Unit42 Dridex PCAP Collection](https://unit42.paloaltonetworks.com/malware-family/dridex/)  
 - [Suricata Documentation](https://suricata.readthedocs.io/en/latest/)
