@@ -34,5 +34,5 @@ into actionable detections and repeatable workflows.
 
 ## References
 - [Unit42 Wireshark Tutorial – Dridex Infection Traffic](https://unit42.paloaltonetworks.com/wireshark-tutorial-dridex-infection-traffic/)  
-- [Unit42 Dridex PCAP Collection](https://unit42.paloaltonetworks.com/malware-family/dridex/)  
+- [Unit42 Dridex PCAP Collection](https://github.com/pan-unit42/wireshark-tutorial-Dridex-traffic/)  
 - [Suricata Documentation](https://suricata.readthedocs.io/en/latest/)
