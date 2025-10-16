@@ -1,49 +1,44 @@
-es
+# ============================================
+# local.rules – Dridex TLS detections (Author: You)
+# ============================================
 
-# ======================================
-# Local Suricata Rules – Dridex Analysis
-# Work in Progress
-# ======================================
-
-# Detect TLS ClientHello with no SNI (common in malware C2)
-alert tls any any -> any any (
-    msg:"LOCAL Dridex - TLS ClientHello without SNI";
-    tls_sni; content:""; depth:0; 
+# 1000011 – Dridex loader JA3 (downloader to truepenesonga)
+alert tls $HOME_NET any -> $EXTERNAL_NET any (
+    msg:"[DRIDEX] Possible loader JA3 detected (3b5074b1b5d032e5620f69f9f700ff0e)";
     flow:established,to_server;
-    sid:2000001; rev:1;
+    ja3_hash; content:"3b5074b1b5d032e5620f69f9f700ff0e";
+    classtype:trojan-activity;
+    sid:1000011; rev:2;
 )
 
-# Detect suspicious TLS certificate (placeholder - update from analysis)
-alert tls any any -> any any (
-    msg:"LOCAL Dridex - Suspicious TLS certificate";
-    flow:established,to_client;
-    tls.cert_subject; content:"CN=example"; nocase;
-    sid:2000002; rev:1;
-)
-
-# JA3 fingerprint match (replace <JA3_HASH> with actual observed hash)
-alert tls any any -> any any (
-    msg:"LOCAL Dridex - Known malicious JA3 fingerprint";
-    ja3_hash;<JA3_HASH>;
-    sid:2000003; rev:1;
-)
-
-# Potential beaconing behavior (generic, update after testing)
-alert tls any any -> any any (
-    msg:"LOCAL Dridex - Potential beaconing traffic";
-    flow:established;
-    byte_test:4,<,200,0,relative;
-    sid:2000004; rev:1;
-)
-
-# Suspicious HTTP C2 pattern (placeholder, update with actual indicators)
-alert http any any -> any any (
-    msg:"LOCAL Dridex - Suspicious HTTP C2 pattern";
+# 1000012 – Dridex C2 JA3 (post-infection)
+# NOTE: "no SNI" is validated in logs/SIEM, not enforced here.
+alert tls $HOME_NET any -> $EXTERNAL_NET any (
+    msg:"[DRIDEX] C2 JA3 fingerprint detected (51c64c77e60f3980eea90869b68c58a8)";
     flow:established,to_server;
-    http.host; content:"example.bad"; nocase;
-    sid:2000005; rev:1;
+    ja3_hash; content:"51c64c77e60f3980eea90869b68c58a8";
+    classtype:trojan-activity;
+    sid:1000012; rev:2;
 )
 
-# ======================================
-# End of local.rules
-# ======================================
+# 1000013 – TLS certificate anomalies (randomized CN/Org) – characteristic of Dridex C2
+alert tls $HOME_NET any -> $EXTERNAL_NET any (
+    msg:"[DRIDEX] TLS certificate anomaly (randomized CN/Org) – possible C2";
+    flow:established,to_server;
+    tls_cert_subject; pcre:"/CN=[A-Za-z0-9]{8,}/";
+    tls_cert_issuer;  pcre:"/O=[A-Za-z0-9]{6,}/";
+    classtype:trojan-activity;
+    sid:1000013; rev:2;
+)
+
+# 1000015 – (Optional) Known C2 IPs from Unit42 Dridex PCAP – for lab replay / IOC matching
+alert tls $HOME_NET any -> [185.86.148.68,212.95.153.36] any (
+    msg:"[DRIDEX] Known C2 IP (Unit42 PCAP IOC)";
+    flow:established,to_server;
+    classtype:trojan-activity;
+    sid:1000015; rev:2;
+)
+
+# ============================================
+# End
+# ============================================
