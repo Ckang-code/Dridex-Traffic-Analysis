@@ -13,14 +13,14 @@ into actionable detections and repeatable workflows.
 
 ## Contents
 - **wireshark-profile/** – Custom Wireshark configuration and filters for TLS, beaconing, and anomaly detection.
-- **pcaps/** – Reference Dridex PCAPs from Unit42 (linked externally for licensing reasons).
+- **pcaps/** – Reference Dridex PCAPs from Unit42 (linked externally).
 - **analysis/** – Draft write-up of traffic analysis (Word document, later exported to Markdown/PDF).
 - **suricata-rules/** – Custom Suricata signatures (to be developed and tested).
 - **results/** – Screenshots, packet statistics, and I/O graphs from Wireshark and Suricata.
 
 ## Goals
 1. Analyze the Dridex infection chain from initial loader traffic through stage loading to command-and-control communications.  
-2. Examine TLS handshakes, certificate anomalies, and beaconing behavior.  
+2. Examine TLS handshakes, certificate anomalies.  
 3. Document indicators of compromise (IOCs) across multiple stages of the infection lifecycle.  
 4. Develop Suricata detection rules based on observed behaviors at each stage.  
 5. Test rules against PCAPs to validate detection accuracy.  
